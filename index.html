@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>دليل المذاكرة – الرياضيات 1-1</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="w">
+<header><div><h1>📐 دليل المذاكرة – الرياضيات 1-1</h1><p class="sub">السنة الأولى المشتركة · نظام المسارات · إعداد: فارس البدر</p></div>
+<button id="th" aria-label="تبديل الوضع">🌙 / ☀️</button></header>
+
+<div class="box">
+<b>اختر الصفحات التي تريد مذاكرتها</b>
+<div class="row" style="margin-top:8px">
+<label>من صفحة <input id="a" type="number" min="11" max="270" value="12"></label>
+<label>إلى صفحة <input id="b" type="number" min="11" max="270" value="25"></label>
+<button class="pri" id="go">عرض</button>
+</div>
+<div class="row" style="margin-top:10px"><span class="sc">اختصارات:</span><span id="chips" class="row"></span></div>
+<p class="sc" id="info" style="margin:8px 0 0"></p>
+</div>
+<div class="box">
+<details><summary>🧮 الآلة الحاسبة</summary>
+<input id="ci" class="ci" dir="ltr" placeholder="مثال: sqrt(3^2+4^2)" autocomplete="off">
+<div class="cr" id="cr"></div>
+<div class="kp" id="kp"></div>
+<p class="sc">الزوايا في sin / cos / tan بالدرجات.</p>
+</details>
+<details><summary>✍️ ملاحظاتي العامة (بالقلم)</summary><div id="gp"></div></details>
+<details><summary>📜 كل القوانين والنظريات</summary><input id="ls" style="width:100%;margin:8px 0" placeholder="ابحث عن قانون..."><div id="ll"></div></details>
+<details><summary>🔤 الرموز والمصطلحات (ماذا تعني X و Y و B ...)</summary><input id="ss" style="width:100%;margin:8px 0" placeholder="ابحث عن رمز..."><div id="sl"></div></details>
+<details><summary>⏱ مؤقت المذاكرة</summary>
+<div class="row" style="justify-content:center;margin-top:8px"><label>مذاكرة (دقيقة) <input id="tms" type="number" min="1" max="180" value="25"></label><label>راحة (دقيقة) <input id="tmb" type="number" min="1" max="60" value="5"></label></div>
+<p class="sc" id="tl" style="text-align:center"></p><div class="tt" id="tt"></div>
+<div class="row" style="justify-content:center"><button class="pri" id="ts">▶️ ابدأ</button><button id="tr">إعادة</button></div>
+<label class="dn" style="text-align:center"><input type="checkbox" id="lk"> 🔒 قفل التركيز (اختياري): يبقيك في الصفحة حتى ينتهي وقت المذاكرة</label>
+<p class="sc" id="lm" style="text-align:center"></p></details>
+<div class="row" style="margin-top:10px"><button class="pri" id="pd">⬇️ تحميل ملاحظاتي PDF</button><button id="qb">🎯 اختبار سريع من الصفحات المختارة</button></div>
+<div class="sc" id="pt" style="margin-top:12px"></div><div class="bar"><i id="pb"></i></div>
+<details id="bd" style="margin-top:10px"><summary>🏅 لوحة الإتقان (برونزية · فضية · ذهبية)</summary>
+<p class="sc">🥉 <b>برونزية</b>: تجيب عن كل أسئلة الدرس وتصيب نصفها على الأقل · 🥈 <b>فضية</b>: كل الأسئلة صحيحة · 🥇 <b>ذهبية</b>: كل سؤال صحيح مرتين متتاليتين (تُحسب أسئلة الدرس والاختبار السريع معًا). تُحفظ على جهازك. اضغط على أي درس للانتقال إليه.</p>
+<div id="bl" class="bl"></div><button id="mreset" style="margin-top:8px">🗑️ إعادة ضبط الميداليات</button></details>
+<details style="margin-top:8px"><summary>👥 غرفة التحدي: تحدَّ صديقًا</summary>
+<p class="sc">أنهِ «اختبارًا سريعًا» ثم اضغط «تحدَّ صديقًا» لتحصل على رابط ورمز. زملاؤك يفتحونه فيحصلون على نفس الأسئلة للصفحات نفسها ويتنافسون على أعلى درجة. إن وصلك رمز تحدٍّ، الصقه هنا.</p>
+<div class="row"><label>اسمك: <input id="pn" class="nm" maxlength="20" placeholder="اسمك"></label></div>
+<div class="row" style="margin-top:8px"><input id="ccode" dir="ltr" placeholder="الصق رابط أو رمز التحدي هنا" style="width:min(100%,320px)"><button id="cjoin" class="pri">انضم للتحدي</button></div></details>
+</div>
+<div id="qz"></div>
+<div id="out"></div>
+<p class="foot">تصميم وإعداد: <b>فارس البدر</b> ✨</p>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>
