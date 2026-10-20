@@ -8,6 +8,7 @@
 .
 ├── index.html      الصفحة الرئيسية
 ├── style.css       التنسيقات
+├── ideas.js        شرح «أهم الأفكار» الموسّع لكل درس (من الكتاب)
 ├── app.js          المنطق (المذاكرة، الميداليات، GeoGebra، ...)
 ├── .nojekyll       يمنع GitHub Pages من معالجة الملفات بـ Jekyll
 └── .gitignore

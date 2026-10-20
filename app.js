@@ -27,7 +27,7 @@ var L=[
 [4,"4-3","المتباينات في المثلث",233,239,["الزاوية الكبرى تقابل الضلع الأطول، والضلع الأطول يقابل الزاوية الكبرى.","قياس الزاوية الخارجية أكبر من قياس أي من الداخليتين البعيدتين."],[["في مثلث زواياه 30° و60° و90°، أقصر ضلع يقابل:",["30°","60°","90°"],0],["الضلع الأطول في المثلث يقابل:",["الزاوية الصغرى","الزاوية الكبرى"],1]]],
 [4,"4-4","البرهان غير المباشر",241,247,["الخطوة 1: افترض أن النتيجة خاطئة.","الخطوة 2: استنتج حتى تصل إلى تناقض، فيكون الافتراض خاطئًا والنتيجة الأصلية صحيحة."],[["أول خطوة في البرهان غير المباشر:",["افتراض نقيض النتيجة","كتابة النتيجة فقط"],0],["ينتهي البرهان غير المباشر بالوصول إلى:",["تناقض","تطابق"],0]]],
 [4,"4-5","متباينة المثلث",249,254,["مجموع طولي أي ضلعين في المثلث أكبر من طول الضلع الثالث."],[["هل تكوّن الأطوال 3 و4 و8 مثلثًا؟",["نعم","لا"],1],["هل تكوّن الأطوال 5 و6 و10 مثلثًا؟",["نعم","لا"],0]]],
-[4,"4-6","المتباينات في مثلثين",255,262,["نظرية المفصلة: إذا تطابق ضلعان في مثلثين واختلفت الزاوية المحصورة، فالزاوية الأكبر يقابلها ضلع ثالث أطول.","وعكسها: الضلع الثالث الأطول يقابل زاوية محصورة أكبر."],[["بحسب نظرية المفصلة، الزاوية المحصورة الأكبر تقابل ضلعًا ثالثًا:",["أقصر","أطول","مساويًا"],1],["عكس نظرية المفصلة: الضلع الثالث الأطول يقابل زاوية محصورة:",["أكبر","أصغر"],0]]]
+[4,"4-6","المتباينات في مثلثين",255,262,["متباينة SAS (الرافعة): إذا تطابق ضلعان في مثلثين واختلفت الزاوية المحصورة، فالزاوية الأكبر يقابلها ضلع ثالث أطول.","وعكسها: الضلع الثالث الأطول يقابل زاوية محصورة أكبر."],[["بحسب متباينة SAS (الرافعة)، الزاوية المحصورة الأكبر تقابل ضلعًا ثالثًا:",["أقصر","أطول","مساويًا"],1],["عكسها، متباينة SSS: الضلع الثالث الأطول يقابل زاوية محصورة:",["أكبر","أصغر"],0]]]
 ];
 var X={"1-1":["النمط 2, 5, 8, 11: الفرق ثابت 3، فالعدد التالي 14.","الاكتفاء بمثال أو مثالين لإثبات تخمين. الأمثلة لا تثبت، لكن مثالًا مضادًا واحدًا ينفيه."],
 "1-2":["p: 5>3 (صحيحة)، q: 2 عدد فردي (خاطئة). إذن p∧q خاطئة، p∨q صحيحة، ~q صحيحة.","الخلط بين «و» و«أو»: الوصل يحتاج صحة العبارتين معًا."],
@@ -102,7 +102,8 @@ function render(){
   var h="";
   ls.forEach(function(l,i){
     h+=gch(l,i,ls)+'<section class="les" data-l="'+l[1]+'"><div class="ch">الفصل '+l[0]+' – '+CH[l[0]]+'</div><h2><span>'+medal(l[1])+'الدرس '+l[1]+': '+l[2]+'</span><span class="pg">ص '+l[3]+' – '+l[4]+'</span></h2>';
-    h+='<details open><summary>📌 أهم الأفكار</summary><ul>'+l[5].map(function(p){return'<li>'+p+'</li>'}).join("")+'</ul></details>';
+    var ki=(typeof KI!=="undefined")&&KI[l[1]];
+    h+='<details open><summary>📌 أهم الأفكار</summary>'+(ki?'<div class="ki">'+ki+'</div>':'<ul>'+l[5].map(function(p){return'<li>'+p+'</li>'}).join("")+'</ul>')+'</details>';
     var x=X[l[1]];
     if(x){h+='<details class="ex"><summary>✏️ مثال محلول</summary><p>'+x[0]+'</p></details><details class="er"><summary>⚠️ خطأ شائع</summary><p>'+x[1]+'</p></details>'}
     h+='<details open><summary>❓ أسئلة التدريب</summary><div class="qb" data-l="'+l[1]+'">'+Q(l[6],keysL(l))+'</div><div class="ms sc" data-l="'+l[1]+'">'+mmsg(l[1])+'</div><button data-retry="'+l[1]+'">🔄 إعادة المحاولة (ترتيب جديد للخيارات)</button></details><details><summary>✍️ ملاحظاتي على الدرس (بالقلم)</summary>'+pad(l[1])+'</details><details><summary>📜 قوانين الدرس</summary>'+lw(l[1])+'</details><label class="dn"><input type="checkbox" data-d="'+l[1]+'"'+(N["d_"+l[1]]?" checked":"")+'> ✅ أنهيت مذاكرة هذا الدرس</label></section>';
@@ -117,7 +118,7 @@ var N={};
 try{N=JSON.parse(localStorage.getItem("notes")||"{}")}catch(e){N={}}
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
 function sv(){try{localStorage.setItem("notes",JSON.stringify(N))}catch(e){}}
-var LW=[["1-1","التخمين والمثال المضاد","التخمين عبارة مبنية على نمط وقد تكون خاطئة، ومثال مضاد واحد يكفي لإثبات خطئها."],["1-2","النفي","~p لها قيمة عكس قيمة p."],["1-2","الوصل p ∧ q","صحيح فقط إذا كانت p و q صحيحتين معًا."],["1-2","الفصل p ∨ q","صحيح إذا صحت إحداهما على الأقل، وخاطئ فقط إذا خطأتا معًا."],["1-3","العبارة الشرطية p → q","خاطئة فقط عندما تكون p صحيحة و q خاطئة."],["1-3","العكس والمعكوس والمعاكس الإيجابي","العكس: q → p. المعكوس: ~p → ~q. المعاكس الإيجابي: ~q → ~p وهو يكافئ العبارة الأصلية."],["1-3","الثنائية الشرطية p ↔ q","تصح إذا كانت العبارة الشرطية وعكسها صحيحتين معًا."],["1-4","قانون الفصل المنطقي","إذا كانت p → q صحيحة و p صحيحة فإن q صحيحة."],["1-4","قانون القياس المنطقي","إذا كانت p → q و q → r صحيحتين فإن p → r صحيحة."],["1-5","مسلمة المستقيم","يوجد مستقيم واحد فقط يمر بأي نقطتين مختلفتين."],["1-5","مسلمة المستوى","يوجد مستوى واحد فقط يمر بأي ثلاث نقاط ليست على استقامة واحدة."],["1-5","تقاطع المستويين","إذا تقاطع مستويان فتقاطعهما مستقيم."],["1-5","تقاطع مستقيمين","يتقاطع مستقيمان في نقطة واحدة على الأكثر."],["1-6","خواص المساواة","الانعكاس a=a، التماثل، التعدي، التعويض، الجمع، الطرح، الضرب، القسمة."],["1-6","خاصية التوزيع","a(b + c) = ab + ac"],["1-7","مسلمة جمع الأطوال","إذا وقعت B بين A و C فإن AB + BC = AC."],["1-7","تطابق القطع المستقيمة","علاقة انعكاسية ومتماثلة ومتعدية."],["1-8","مسلمة جمع الزوايا","إذا وقعت D داخل ∠ABC فإن m∠ABD + m∠DBC = m∠ABC."],["1-8","المتتامتان والمتكاملتان","مجموع المتتامتين 90° ومجموع المتكاملتين 180°."],["1-8","الزوج الخطي","زاويتان تشكلان زوجًا خطيًا متكاملتان."],["1-8","الزاويتان المتقابلتان بالرأس","متطابقتان."],["2-2","المستقيمان المتوازيان والقاطع","الزوايا المتناظرة والمتبادلة داخليًا والمتبادلة خارجيًا متطابقة."],["2-2","الزاويتان المتحالفتان","متكاملتان (مجموعهما 180°)."],["2-3","عكس نظريات التوازي","إذا تطابقت زاويتان متناظرتان أو متبادلتان، أو تكاملت متحالفتان، فالمستقيمان متوازيان."],["2-3","مستقيمان عموديان على ثالث","في المستوى الواحد هما متوازيان."],["2-4","قانون الميل","m = (y₂ − y₁) ÷ (x₂ − x₁)"],["2-4","التوازي والتعامد","المتوازيان: m₁ = m₂. المتعامدان: m₁ × m₂ = −1."],["2-5","صيغة الميل والمقطع","y = mx + b"],["2-5","صيغة الميل ونقطة","y − y₁ = m(x − x₁)"],["2-5","المستقيمات الخاصة","الأفقي y=c ميله 0، والرأسي x=c ميله غير معرّف."],["2-6","المسافة بين نقطة ومستقيم","طول القطعة العمودية من النقطة إلى المستقيم."],["2-6","المسافة بين متوازيين","تُقاس على قطعة عمودية عليهما معًا."],["3-2","مجموع زوايا المثلث","180°."],["3-2","نظرية الزاوية الخارجية","قياسها = مجموع الداخليتين البعيدتين."],["3-2","زاويتا المثلث القائم","الحادتان متتامتان."],["3-3","CPCTC","الأجزاء المتناظرة في مثلثين متطابقين متطابقة."],["3-4","SSS","ثلاثة أضلاع متطابقة تعني مثلثين متطابقين."],["3-4","SAS","ضلعان والزاوية المحصورة بينهما."],["3-5","ASA","زاويتان والضلع المحصور بينهما."],["3-5","AAS","زاويتان وضلع غير محصور."],["3-6","المثلث المتطابق الضلعين","زاويتا القاعدة متطابقتان، والعكس صحيح."],["3-6","المثلث المتطابق الأضلاع","متطابق الزوايا وقياس كل زاوية 60°."],["3-7","صيغة المسافة","d = √[(x₂−x₁)² + (y₂−y₁)²]"],["3-7","صيغة نقطة المنتصف","M = ((x₁+x₂)/2 , (y₁+y₂)/2)"],["4-1","العمود المنصف","كل نقطة عليه تبعد البعد نفسه عن طرفي القطعة، والعكس صحيح."],["4-1","منصف الزاوية","كل نقطة عليه تبعد البعد نفسه عن ضلعي الزاوية، والعكس صحيح."],["4-1","نقاط التلاقي","الأعمدة المنصفة تلتقي في مركز الدائرة المارة بالرؤوس، ومنصفات الزوايا في مركز الدائرة الداخلية."],["4-2","مركز الثقل","نقطة تلاقي المتوسطات، وتبعد ⅔ طول المتوسط عن الرأس."],["4-2","الارتفاعات","ارتفاعات المثلث تلتقي في نقطة واحدة."],["4-3","الزاوية والضلع المقابل","الزاوية الأكبر تقابل الضلع الأطول والعكس."],["4-3","الزاوية الخارجية","أكبر من كل من الداخليتين البعيدتين."],["4-4","خطوات البرهان غير المباشر","1) افترض نقيض النتيجة. 2) استنتج حتى تصل إلى تناقض. 3) الافتراض خاطئ فالنتيجة صحيحة."],["4-5","متباينة المثلث","مجموع طولي أي ضلعين أكبر من طول الضلع الثالث."],["4-6","نظرية المفصلة","ضلعان متطابقان: الزاوية المحصورة الأكبر تقابل ضلعًا ثالثًا أطول."],["4-6","عكس المفصلة","الضلع الثالث الأطول يقابل زاوية محصورة أكبر."]];
+var LW=[["1-1","التخمين والمثال المضاد","التخمين عبارة مبنية على نمط وقد تكون خاطئة، ومثال مضاد واحد يكفي لإثبات خطئها."],["1-2","النفي","~p لها قيمة عكس قيمة p."],["1-2","الوصل p ∧ q","صحيح فقط إذا كانت p و q صحيحتين معًا."],["1-2","الفصل p ∨ q","صحيح إذا صحت إحداهما على الأقل، وخاطئ فقط إذا خطأتا معًا."],["1-3","العبارة الشرطية p → q","خاطئة فقط عندما تكون p صحيحة و q خاطئة."],["1-3","العكس والمعكوس والمعاكس الإيجابي","العكس: q → p. المعكوس: ~p → ~q. المعاكس الإيجابي: ~q → ~p وهو يكافئ العبارة الأصلية."],["1-3","الثنائية الشرطية p ↔ q","تصح إذا كانت العبارة الشرطية وعكسها صحيحتين معًا."],["1-4","قانون الفصل المنطقي","إذا كانت p → q صحيحة و p صحيحة فإن q صحيحة."],["1-4","قانون القياس المنطقي","إذا كانت p → q و q → r صحيحتين فإن p → r صحيحة."],["1-5","مسلمة المستقيم","يوجد مستقيم واحد فقط يمر بأي نقطتين مختلفتين."],["1-5","مسلمة المستوى","يوجد مستوى واحد فقط يمر بأي ثلاث نقاط ليست على استقامة واحدة."],["1-5","تقاطع المستويين","إذا تقاطع مستويان فتقاطعهما مستقيم."],["1-5","تقاطع مستقيمين","يتقاطع مستقيمان في نقطة واحدة على الأكثر."],["1-6","خواص المساواة","الانعكاس a=a، التماثل، التعدي، التعويض، الجمع، الطرح، الضرب، القسمة."],["1-6","خاصية التوزيع","a(b + c) = ab + ac"],["1-7","مسلمة جمع الأطوال","إذا وقعت B بين A و C فإن AB + BC = AC."],["1-7","تطابق القطع المستقيمة","علاقة انعكاسية ومتماثلة ومتعدية."],["1-8","مسلمة جمع الزوايا","إذا وقعت D داخل ∠ABC فإن m∠ABD + m∠DBC = m∠ABC."],["1-8","المتتامتان والمتكاملتان","مجموع المتتامتين 90° ومجموع المتكاملتين 180°."],["1-8","الزاويتان المتجاورتان على مستقيم","زاويتان متجاورتان ضلعاهما غير المشتركين شعاعان متقابلان، وهما متكاملتان (تسمى أيضًا الزوج الخطي)."],["1-8","الزاويتان المتقابلتان بالرأس","متطابقتان."],["2-2","المستقيمان المتوازيان والقاطع","الزوايا المتناظرة والمتبادلة داخليًا والمتبادلة خارجيًا متطابقة."],["2-2","الزاويتان المتحالفتان","متكاملتان (مجموعهما 180°)."],["2-3","عكس نظريات التوازي","إذا تطابقت زاويتان متناظرتان أو متبادلتان، أو تكاملت متحالفتان، فالمستقيمان متوازيان."],["2-3","مستقيمان عموديان على ثالث","في المستوى الواحد هما متوازيان."],["2-4","قانون الميل","m = (y₂ − y₁) ÷ (x₂ − x₁)"],["2-4","التوازي والتعامد","المتوازيان: m₁ = m₂. المتعامدان: m₁ × m₂ = −1."],["2-5","صيغة الميل والمقطع","y = mx + b"],["2-5","صيغة الميل ونقطة","y − y₁ = m(x − x₁)"],["2-5","المستقيمات الخاصة","الأفقي y=c ميله 0، والرأسي x=c ميله غير معرّف."],["2-6","المسافة بين نقطة ومستقيم","طول القطعة العمودية من النقطة إلى المستقيم."],["2-6","المسافة بين متوازيين","تُقاس على قطعة عمودية عليهما معًا."],["3-2","مجموع زوايا المثلث","180°."],["3-2","نظرية الزاوية الخارجية","قياسها = مجموع الداخليتين البعيدتين."],["3-2","زاويتا المثلث القائم","الحادتان متتامتان."],["3-3","CPCTC","الأجزاء المتناظرة في مثلثين متطابقين متطابقة."],["3-4","SSS","ثلاثة أضلاع متطابقة تعني مثلثين متطابقين."],["3-4","SAS","ضلعان والزاوية المحصورة بينهما."],["3-5","ASA","زاويتان والضلع المحصور بينهما."],["3-5","AAS","زاويتان وضلع غير محصور."],["3-6","المثلث المتطابق الضلعين","زاويتا القاعدة متطابقتان، والعكس صحيح."],["3-6","المثلث المتطابق الأضلاع","متطابق الزوايا وقياس كل زاوية 60°."],["3-7","صيغة المسافة","d = √[(x₂−x₁)² + (y₂−y₁)²]"],["3-7","صيغة نقطة المنتصف","M = ((x₁+x₂)/2 , (y₁+y₂)/2)"],["4-1","العمود المنصف","كل نقطة عليه تبعد البعد نفسه عن طرفي القطعة، والعكس صحيح."],["4-1","منصف الزاوية","كل نقطة عليه تبعد البعد نفسه عن ضلعي الزاوية، والعكس صحيح."],["4-1","نقاط التلاقي","الأعمدة المنصفة تلتقي في مركز الدائرة المارة بالرؤوس، ومنصفات الزوايا في مركز الدائرة الداخلية."],["4-2","مركز الثقل","نقطة تلاقي المتوسطات، وتبعد ⅔ طول المتوسط عن الرأس."],["4-2","الارتفاعات","ارتفاعات المثلث تلتقي في نقطة واحدة."],["4-3","الزاوية والضلع المقابل","الزاوية الأكبر تقابل الضلع الأطول والعكس."],["4-3","الزاوية الخارجية","أكبر من كل من الداخليتين البعيدتين."],["4-4","خطوات البرهان غير المباشر","1) افترض نقيض النتيجة. 2) استنتج حتى تصل إلى تناقض. 3) الافتراض خاطئ فالنتيجة صحيحة."],["4-5","متباينة المثلث","مجموع طولي أي ضلعين أكبر من طول الضلع الثالث."],["4-6","متباينة SAS (الرافعة)","ضلعان متطابقان: الزاوية المحصورة الأكبر تقابل ضلعًا ثالثًا أطول."],["4-6","متباينة SSS (عكس الرافعة)","الضلع الثالث الأطول يقابل زاوية محصورة أكبر."]];
 var SY=[["A, B, C","حروف كبيرة تسمّي النقاط ورؤوس المثلث."],["ℓ , n","حروف صغيرة تسمّي المستقيمات."],["t","القاطع: مستقيم يقطع مستقيمين أو أكثر."],["AB","القطعة المستقيمة بين A و B، وتعني أيضًا طولها."],["∠ABC","زاوية رأسها B (الحرف الأوسط)."],["m∠ABC","قياس الزاوية بالدرجات."],["△ABC","مثلث رؤوسه A و B و C."],["≅","متطابق (الشكل والقياس نفسهما)."],["= , ≠","يساوي / لا يساوي."],["∥","يوازي، مثل ℓ ∥ n."],["⊥","عمودي على (يصنع زاوية 90°)."],["p, q, r","عبارات منطقية (جمل صحيحة أو خاطئة)."],["~p","نفي p (ليست p)."],["∧ , ∨","و (وصل) ، أو (فصل)."],["→","شرطية: إذا ... فإن ..."],["↔","ثنائية شرطية: ... إذا وفقط إذا ..."],["∴","إذن (ينتج عن ذلك)."],["x","متغير مجهول، وفي المستوى الإحداثي هو الإحداثي السيني (الأفقي)."],["y","متغير، وفي المستوى الإحداثي هو الإحداثي الصادي (الرأسي)."],["(x, y)","زوج مرتب يحدد موقع نقطة."],["(x₁, y₁) , (x₂, y₂)","إحداثيات نقطتين مختلفتين."],["m","ميل المستقيم = التغير الرأسي ÷ التغير الأفقي."],["b","المقطع الصادي: قيمة y عندما x = 0."],["d","المسافة بين نقطتين."],["M","نقطة المنتصف."],["O","نقطة الأصل (0, 0)."],["S , A","في SSS و SAS و ASA و AAS: S ضلع (Side) و A زاوية (Angle)."],["CPCTC","الأجزاء المتناظرة في المثلثين المتطابقين متطابقة."],["°","درجة (وحدة قياس الزوايا)."],["√","الجذر التربيعي."],["< , >","أصغر من / أكبر من."]];
 function lw(id){var a=LW.filter(function(x){return x[0]===id});return a.length?a.map(function(x){return'<p><b>'+x[1]+':</b> '+x[2]+'</p>'}).join(""):'<p class="sc">لا توجد قوانين مستقلة في هذا الدرس.</p>'}
 function pad(id){return'<div class="pad" data-id="'+id+'"><div class="tb"><button class="sw on" data-c="#111" style="background:#111"></button><button class="sw" data-c="#1d4ed8" style="background:#1d4ed8"></button><button class="sw" data-c="#dc2626" style="background:#dc2626"></button><button class="sw" data-c="#16a34a" style="background:#16a34a"></button><button data-e="1">🧽 ممحاة</button><button data-u="1">↩️ تراجع</button><button data-x="1">🗑️ مسح</button></div><canvas></canvas></div>'}
@@ -245,88 +246,6 @@ function ggOpen(d){var box=d.querySelector(".gg");if(box.dataset.ok)return;box.d
     var w0=Math.max(280,Math.min(box.clientWidth||800,860)),h0=w0<520?460:500;
     new GGBApplet({appName:"classic",width:w0,height:h0,perspective:"AG",showToolBar:true,showAlgebraInput:true,showMenuBar:false,showResetIcon:true,enableRightClick:true,enableUndoRedo:true,showFullscreenButton:false,language:"ar",
       appletOnLoad:function(a){api=a;try{a.setPerspective("AG")}catch(e){}setTimeout(fit,100)}},true).inject(hd.id)})}
-document.addEventListener("toggle",function(e){var d=e.target;if(d.open&&d.querySelectorAll)d.querySelectorAll(".pad").forEach(initPad)},true);
-$("gp").innerHTML=pad("gen");
-document.addEventListener("change",function(e){var t=e.target;if(t.dataset&&t.dataset.d){N["d_"+t.dataset.d]=t.checked;sv();prog()}});
-prog();
-function pdf(){
-  var J=window.jspdf&&window.jspdf.jsPDF;if(!J){alert("تعذّر تحميل مكتبة PDF. تأكد من الاتصال بالإنترنت.");return}
-  var ids=Object.keys(N).filter(function(k){return k.indexOf("p_")===0&&N[k]});
-  if(!ids.length){alert("لا توجد ملاحظات مكتوبة بالقلم بعد.");return}
-  var order=["gen"].concat(L.map(function(l){return l[1]}));
-  ids.sort(function(a,b){return order.indexOf(a.slice(2))-order.indexOf(b.slice(2))});
-  var imgs={};
-  Promise.all(ids.map(function(k){return new Promise(function(res){var im=new Image();im.onload=function(){imgs[k]=im;res()};im.src=N[k]})})).then(function(){
-    var doc=new J({unit:"pt",format:"a4"}),first=true;
-    ids.forEach(function(k){
-      var im=imgs[k],id=k.slice(2),ls=L.filter(function(l){return l[1]===id})[0];
-      var t=id==="gen"?"ملاحظات عامة":"ملاحظاتي – الدرس "+id+": "+(ls?ls[2]:"");
-      var c=document.createElement("canvas");c.width=1240;c.height=1754;var x=c.getContext("2d");
-      x.fillStyle="#fff";x.fillRect(0,0,1240,1754);x.direction="rtl";x.textAlign="right";
-      x.fillStyle="#1b2333";x.font="bold 40px Cairo,Tahoma,Arial";x.fillText(t,1170,110);
-      x.fillStyle="#666";x.font="26px Cairo,Tahoma,Arial";x.fillText("الرياضيات 1-1 · فارس البدر",1170,160);
-      var w=1100,h=w*im.height/im.width;x.strokeStyle="#ccc";x.strokeRect(70,200,w,h);x.drawImage(im,70,200,w,h);
-      if(!first)doc.addPage();first=false;
-      doc.addImage(c.toDataURL("image/jpeg",.92),"JPEG",0,0,595.28,841.89);
-    });
-    doc.save("math-notes.pdf");
-  });
-}
-$("pd").onclick=pdf;
-function lf(){var q=$("ls").value.trim();$("ll").innerHTML=LW.filter(function(x){return!q||(x[1]+x[2]).indexOf(q)>-1}).map(function(x){return'<p><span class="pg">'+x[0]+'</span> <b>'+x[1]+':</b> '+x[2]+'</p>'}).join("")||'<p class="sc">لا توجد نتائج.</p>'}
-function sf(){var q=$("ss").value.trim();var r=SY.filter(function(x){return!q||(x[0]+x[1]).indexOf(q)>-1}).map(function(x){return'<tr><td dir="ltr">'+x[0]+'</td><td>'+x[1]+'</td></tr>'}).join("");$("sl").innerHTML=r?'<table>'+r+'</table>':'<p class="sc">لا توجد نتائج.</p>'}
-$("ls").oninput=lf;$("ss").oninput=sf;lf();sf();
-var tm=1500,ti=null,br=false,lk=false,lv=0,wl=null;
-function gm(id,d){var v=parseInt($(id).value);return v>0?Math.min(v,180):d}
-function td(){$("tt").textContent=("0"+Math.floor(tm/60)).slice(-2)+":"+("0"+tm%60).slice(-2)}
-function lab(){$("tl").textContent=br?"☕ وقت الراحة ("+gm("tmb",5)+" دقائق)":"📚 وقت المذاكرة ("+gm("tms",25)+" دقيقة)"}
-function setT(){if(!ti){tm=(br?gm("tmb",5):gm("tms",25))*60;lab();td()}}
-$("tms").oninput=$("tmb").oninput=setT;
-function fsr(){try{var p=document.documentElement.requestFullscreen();if(p&&p.catch)p.catch(function(){})}catch(e){}}
-function lockOn(){lk=true;lv=0;fsr();try{if(navigator.wakeLock)navigator.wakeLock.request("screen").then(function(s){wl=s}).catch(function(){})}catch(e){}$("lm").textContent="🔒 قفل التركيز يعمل حتى ينتهي وقت المذاكرة."}
-function lockOff(m){lk=false;try{if(wl){wl.release();wl=null}}catch(e){}try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}$("lm").textContent=m||""}
-window.addEventListener("beforeunload",function(e){if(lk){e.preventDefault();e.returnValue=""}});
-document.addEventListener("visibilitychange",function(){if(!lk)return;if(document.hidden){lv++}else{$("lm").textContent="⚠️ غادرت الصفحة "+lv+" مرة أثناء وقت التركيز. ارجع للمذاكرة! 💪";if(!document.fullscreenElement)fsr()}});
-$("ts").onclick=function(){
-  if(ti){if(lk&&!confirm("إيقاف المؤقت سينهي قفل التركيز. هل أنت متأكد؟"))return;clearInterval(ti);ti=null;lockOff("");this.textContent="▶️ ابدأ";return}
-  this.textContent="⏸ إيقاف";
-  if($("lk").checked&&!br)lockOn();
-  ti=setInterval(function(){tm--;if(tm<=0){var was=!br;br=!br;tm=(br?gm("tmb",5):gm("tms",25))*60;lab();if(was&&lk)lockOff("✅ انتهى وقت المذاكرة وتم فك القفل. خذ راحة!")}td()},1000)};
-$("tr").onclick=function(){clearInterval(ti);ti=null;br=false;lockOff("");$("ts").textContent="▶️ ابدأ";setT()};
-setT();
-var ci=$("ci");
-function deg(f){return function(x){return f(x*Math.PI/180)}}
-function ev(){
-  var s=ci.value.replace(/\s/g,"").replace(/×/g,"*").replace(/÷/g,"/").replace(/√/g,"sqrt").replace(/π/g,"PI").replace(/\^/g,"**");
-  if(!s){$("cr").textContent="";return}
-  if(s.replace(/sin|cos|tan|sqrt|PI/g,"").search(/[^0-9+\-*\/().%]/)>-1){$("cr").textContent="تعبير غير صالح";return}
-  try{var r=new Function("sin","cos","tan","sqrt","PI","return ("+s+")")(deg(Math.sin),deg(Math.cos),deg(Math.tan),Math.sqrt,Math.PI);
-    $("cr").textContent=isFinite(r)?"= "+Math.round(r*1e10)/1e10:"تعبير غير صالح"}catch(e){$("cr").textContent="تعبير غير صالح"}
-}
-ci.onkeydown=function(e){if(e.key==="Enter")ev()};
-["7","8","9","÷","C","4","5","6","×","⌫","1","2","3","-","(","0",".","+","^",")","√(","π","sin(","cos(","tan("].forEach(function(k){
-  var b=document.createElement("button");b.textContent=k;
-  b.onclick=function(){if(k==="C"){ci.value="";$("cr").textContent=""}else if(k==="⌫")ci.value=ci.value.slice(0,-1);else ci.value+=k;if(k!=="C")ev()};
-  $("kp").appendChild(b)
-});
-var eq=document.createElement("button");eq.textContent="=";eq.className="pri";eq.style.gridColumn="1/-1";eq.onclick=ev;$("kp").appendChild(eq);
-$("go").onclick=render;
-CR.forEach(function(r,i){
-  if(!r)return;
-  var c=document.createElement("button");c.className="chip";c.textContent="الفصل "+i;
-  c.onclick=function(){$("a").value=r[0]+(i===1?1:0);$("b").value=r[1];render()};
-  $("chips").appendChild(c);
-});
-/* ===== GeoGebra: لوحة فارغة لكل فصل رئيسي، يستخدمها الطالب بحرية ===== */
-function gch(l,i,ls){var c=l[0];if(i&&ls[i-1][0]===c)return"";
-  return'<details class="les ggd" data-ch="'+c+'"><summary>📐 GeoGebra – الفصل '+c+': '+CH[c]+'</summary><p class="sc">لوحة حرة: ارسم نقاطًا ومستقيمات ومثلثات وقِس الزوايا والأطوال بأدوات GeoGebra، أو اكتب الأوامر في شريط الإدخال.</p><div class="gg"></div><a class="lk" target="_blank" rel="noopener" href="https://www.geogebra.org/classic">↗ افتح GeoGebra كاملًا</a></details>'}
-function ggLoad(cb){if(window.GGBApplet)return cb();var s=document.createElement("script");s.src="https://www.geogebra.org/apps/deployggb.js";s.onload=function(){cb()};s.onerror=function(){cb(1)};document.head.appendChild(s)}
-var ggN=0;
-function ggOpen(d){var box=d.querySelector(".gg");if(box.dataset.ok)return;box.dataset.ok=1;box.textContent="⏳ جارٍ تحميل GeoGebra…";
-  ggLoad(function(err){if(err||!window.GGBApplet){box.dataset.ok="";box.innerHTML='<p class="sc">تعذّر تحميل GeoGebra (تحتاج اتصالًا بالإنترنت). يمكنك فتحه من الرابط أدناه.</p>';return}
-    box.innerHTML="";var hd=document.createElement("div");hd.id="ggb_"+(++ggN);box.appendChild(hd);
-    var w=Math.max(280,Math.min(box.clientWidth||800,860)),h=w<520?420:480;
-    new GGBApplet({appName:"classic",width:w,height:h,perspective:"G",showToolBar:true,showAlgebraInput:true,showMenuBar:false,showResetIcon:true,enableRightClick:true,showFullscreenButton:true,language:"ar"},true).inject(hd.id)})}
 document.addEventListener("toggle",function(e){var d=e.target;if(d&&d.classList&&d.classList.contains("ggd")&&d.open)ggOpen(d)},true);
 /* ===== تحديث الميداليات ===== */
 function toast(m){var t=$("toast");if(!t){t=document.createElement("div");t.id="toast";t.setAttribute("role","status");document.body.appendChild(t)}t.textContent=m;t.hidden=false;clearTimeout(t._t);t._t=setTimeout(function(){t.hidden=true},3200)}

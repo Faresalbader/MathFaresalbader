@@ -71,3 +71,34 @@ table{width:100%;border-collapse:collapse}td{border-bottom:1px solid var(--bd);p
 .lb{margin:10px 0}.lb td:first-child{color:inherit;font-weight:400}.lb tr.me td{background:var(--ac2);font-weight:700}
 .shr input{width:100%;direction:ltr;text-align:left;margin:4px 0}
 .nm{width:160px}
+
+/* ===== أهم الأفكار الموسّعة ===== */
+.ki{line-height:1.9}
+.ki h4{margin:14px 0 6px;color:var(--ac);font-size:1.02em;border-bottom:1px dashed var(--bd);padding-bottom:3px}
+.ki p{margin:6px 0}
+.ki ul,.ki ol{margin:6px 0;padding-inline-start:22px}
+.ki li{margin:3px 0}
+.ki .kd,.ki .kt,.ki .ke,.ki .kw{border-radius:10px;padding:8px 12px;margin:9px 0;border:1px solid var(--bd)}
+.ki .kd{background:var(--ac2)}
+.ki .kt{border-inline-start:5px solid var(--ac);background:var(--card)}
+.ki .ke{background:var(--okb);border-color:transparent}
+.ki .ke .sol{margin-top:4px}
+.ki .kw{background:var(--nob);border-color:transparent}
+.ki .kbw{overflow-x:auto;margin:8px 0}
+.ki table.kb{border-collapse:collapse;width:100%;font-size:.92em}
+.ki table.kb th,.ki table.kb td{border:1px solid var(--bd);padding:4px 7px;text-align:start;line-height:1.6}
+.ki table.kb th{background:var(--ac2)}
+.ki .ke table.kb{background:var(--card)}
+.ki figure.fig{margin:10px auto;text-align:center;max-width:380px}
+.ki figure.fig svg{width:100%;height:auto}
+.ki figcaption{font-size:.88em;color:var(--mu);margin-top:2px}
+.fig .k{stroke:var(--tx);fill:none;stroke-width:2}
+.fig .a{stroke:var(--ac);fill:none;stroke-width:2.6}
+.fig .g{stroke:var(--bd);stroke-width:1}
+.fig .pt{fill:var(--ac)}
+.fig polygon{stroke-linejoin:round}
+.fig text{fill:var(--tx);font:14px Cairo,Tahoma,Arial,sans-serif}
+.fig text.n{fill:var(--ac);font-weight:700}
+.ki bdi{display:inline-block;direction:ltr;unicode-bidi:isolate;max-width:100%;text-align:left}
+.ki table.kb td,.ki table.kb td:first-child{white-space:normal;font-weight:400;color:var(--tx);background:transparent;vertical-align:middle}
+.ki table.kb td b{color:var(--ac)}
